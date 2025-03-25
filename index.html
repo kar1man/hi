@@ -56,15 +56,18 @@
       return { x, y };
     }
   
-    for (let i = 0; i < totalHearts; i++) {
-      hearts.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * heartSize + 4,
-        speedX: (Math.random() - 0.5) * 2,
-        speedY: (Math.random() - 0.5) * 2,
-        color: `rgba(255, 0, 150, ${Math.random()})`,
-      });
+    function createHearts() {
+      hearts.length = 0; // Clear existing hearts
+      for (let i = 0; i < totalHearts; i++) {
+        hearts.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * heartSize + 4,
+          speedX: (Math.random() - 0.5) * 2,
+          speedY: (Math.random() - 0.5) * 2,
+          color: `rgba(255, 0, 150, ${Math.random()})`,
+        });
+      }
     }
   
     function drawHeart(x, y, size, color) {
@@ -135,23 +138,25 @@
         const scaledWidth = imageWidth * imageScale;
         const scaledHeight = imageHeight * imageScale;
         ctx.drawImage(
-        image,
-        canvas.width / 2 - scaledWidth / 2, // x-coordinate (centered horizontally)
-        canvas.height / 2 + textSize * 2 - 40, // y-coordinate (move up by 20 pixels)
-        scaledWidth,
-        scaledHeight
-      );
+          image,
+          canvas.width / 2 - scaledWidth / 2,
+          canvas.height / 2 + textSize * 2 - 40, // Adjusted y-coordinate
+          scaledWidth,
+          scaledHeight
+        );
       }
   
       timer++;
       requestAnimationFrame(animate);
     }
   
+    createHearts();
     animate();
   
     window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      createHearts(); // Recreate hearts to adapt to new canvas size
     });
   </script>
 </body>
